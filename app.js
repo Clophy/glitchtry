@@ -1,12 +1,17 @@
-import express from "express"
+const express = require('express');
+const device = require('express-device');
+const app = express();
 
+app.use(device.capture());
 
-const app = express()
+app.get('/', function(req, res) {
+  if (req.device.type === 'phone') {
+    res.redirect('https://www.barangenez.com/mobil');
+  } else {
+    res.redirect('https://www.barangenez.com/masaüstü');
+  }
+});
 
-
-
-app.get("/", (req,res)=>{
-    res.status(200).send("selam bebek")
-})
-
-app.listen(5500, console.log("5500 portunda çalışıyor."))
+app.listen(process.env.PORT || 5500, function() {
+  console.log('Uygulama başlatıldı.');
+});
